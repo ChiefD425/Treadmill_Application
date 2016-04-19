@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         EditText inclineTextView = (EditText) findViewById(R.id.incline_percentage);
         incline = Float.parseFloat(inclineTextView.getText().toString());
         incline = incline / 100;
-
+        
         milesPerMinute = speed * 26.8;
         weightInKilograms = weight / 2.2;
         caloriesPerMinute = (oxygenUsed(milesPerMinute) * weightInKilograms) / 200;
@@ -154,4 +154,5 @@ public class MainActivity extends AppCompatActivity {
         stepsPerMileCalculation += ((63.4 * (60 / speed)) - (14.1 * height));
         return stepsPerMileCalculation;
     }
+
 }
