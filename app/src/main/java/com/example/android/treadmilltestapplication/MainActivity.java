@@ -1,7 +1,10 @@
 package com.example.android.treadmilltestapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -95,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         EditText inclineTextView = (EditText) findViewById(R.id.incline_percentage);
         incline = Float.parseFloat(inclineTextView.getText().toString());
         incline = incline / 100;
-        
+
         milesPerMinute = speed * 26.8;
         weightInKilograms = weight / 2.2;
         caloriesPerMinute = (oxygenUsed(milesPerMinute) * weightInKilograms) / 200;
@@ -155,4 +158,22 @@ public class MainActivity extends AppCompatActivity {
         return stepsPerMileCalculation;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_settings) {
+            Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
 }
