@@ -2,13 +2,15 @@ package com.example.android.treadmilltestapplication;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,6 +21,14 @@ public class MainActivity extends AppCompatActivity {
     float time = 0;
     float incline = 0;
     float speed = 0;
+
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,9 +98,9 @@ public class MainActivity extends AppCompatActivity {
 
         milesPerMinute = speed * 26.8;
         weightInKilograms = weight / 2.2;
-        caloriesPerMinute = oxygenUsed(milesPerMinute) * weightInKilograms;
+        caloriesPerMinute = (oxygenUsed(milesPerMinute) * weightInKilograms) / 200;
         totalCalorieBurn = caloriesPerMinute * time;
-        steps = (int) (stepsPerMile() * time);
+        steps = (int) ((speed / 60) * stepsPerMile() * time);
         distance = time * (speed / 60);
 
         displayResults(totalCalorieBurn, steps, distance);
@@ -103,9 +113,9 @@ public class MainActivity extends AppCompatActivity {
 
         String workoutSummary = "";
         workoutSummary += "Congratulations!";
-        workoutSummary += "\nYou burned " + totalCalorieBurn + " Calories";
-        workoutSummary += "\nYou took " + steps + " Steps";
-        workoutSummary += "\nYou traveled " + distance + " Miles";
+        workoutSummary += "\nYou burned " + (int) round(totalCalorieBurn, 0) + " Calories";
+        workoutSummary += "\nYou took " + (int) round(steps, 0) + " Steps";
+        workoutSummary += "\nYou traveled " + round(distance, 2) + " Miles";
 
         resultsTextView.setText(workoutSummary);
     }
@@ -122,8 +132,6 @@ public class MainActivity extends AppCompatActivity {
             oxygenUsedCalculation = (milesPerMinute * 0.1);
             oxygenUsedCalculation += (milesPerMinute * incline * 1.8);
             oxygenUsedCalculation += 3.5;
-            Log.v("milesPerMinute", String.valueOf(milesPerMinute));
-            Log.v("oxygenUsed", String.valueOf(oxygenUsedCalculation));
         }
 
         return oxygenUsedCalculation;
