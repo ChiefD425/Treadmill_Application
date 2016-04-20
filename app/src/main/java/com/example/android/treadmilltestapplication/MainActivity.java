@@ -39,9 +39,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         SharedPreferences sharedPreferences = MainActivity.this.getSharedPreferences(getString(R.string.PREF_FILE), MODE_PRIVATE);
-        sexString = sharedPreferences.getString(getString(R.string.GENDER), "Male");
+        sexString = sharedPreferences.getString(getString(R.string.GENDER), "Not Defined");
         height = sharedPreferences.getInt(getString(R.string.HEIGHT), 60);
         weight = sharedPreferences.getInt(getString(R.string.WEIGHT), 125);
+
+        if (sexString == "Not Defined") {
+            Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+            startActivity(intent);
+        }
     }
 
     public void calculateResults(View v) {
@@ -56,17 +61,28 @@ public class MainActivity extends AppCompatActivity {
 
         //grab the time
         EditText timeTextView = (EditText) findViewById(R.id.time_on_treadmill);
-        time = Float.parseFloat(timeTextView.getText().toString());
 
-        Log.v("Time", String.valueOf(time));
-
-        if (time <= 0.000001) {
+        try {
+            time = Float.parseFloat(timeTextView.getText().toString());
+        } catch (NumberFormatException ex) {
             Toast.makeText(getApplicationContext(), "Error: Run Duration Missing", Toast.LENGTH_SHORT).show();
             return;
         }
 
+        time = Float.parseFloat(timeTextView.getText().toString());
+
+        Log.v("Time", String.valueOf(time));
+
         //grab the speed
         EditText speedTextView = (EditText) findViewById(R.id.speed);
+
+        try {
+            speed = Float.parseFloat(speedTextView.getText().toString());
+        } catch (NumberFormatException ex) {
+            Toast.makeText(getApplicationContext(), "Error: Treadmill Speed Missing", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        
         speed = Float.parseFloat(speedTextView.getText().toString());
 
         //grab the incline
