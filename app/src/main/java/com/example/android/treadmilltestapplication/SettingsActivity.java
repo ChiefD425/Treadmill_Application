@@ -1,19 +1,20 @@
 package com.example.android.treadmilltestapplication;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class SettingsActivity extends AppCompatActivity {
-
-    int sex = 0; //if sex = 0 then male, if sex = 1 then female
+//public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends Activity {
+    //  int sex = 0; //if sex = 0 then male, if sex = 1 then female
     String sexString = "";
     int height = 0;
     int weight = 0;
@@ -34,7 +35,7 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         SharedPreferences sharedPreferences = SettingsActivity.this.getSharedPreferences(getString(R.string.PREF_FILE), MODE_PRIVATE);
-        sexString = sharedPreferences.getString(getString(R.string.GENDER), "Male");
+        sexString = sharedPreferences.getString(getString(R.string.GENDER), "");
         height = sharedPreferences.getInt(getString(R.string.HEIGHT), 60);
         weight = sharedPreferences.getInt(getString(R.string.WEIGHT), 125);
 
@@ -44,19 +45,18 @@ public class SettingsActivity extends AppCompatActivity {
         EditText heightTextView = (EditText) findViewById(R.id.height_input);
         heightTextView.setText(String.valueOf(height));
 
-        if (sexString == "Female") {
-            TextView tempMaleText = (TextView) findViewById(R.id.male_button_selected);
-            TextView tempFemaleText = (TextView) findViewById(R.id.female_button_selected);
+        TextView tempMaleText = (TextView) findViewById(R.id.male_button_selected);
+        TextView tempFemaleText = (TextView) findViewById(R.id.female_button_selected);
 
+        if (sexString.equals("Female")) {
             tempMaleText.setText("");
             tempFemaleText.setText("selected");
-        } else {
-            TextView tempMaleText = (TextView) findViewById(R.id.male_button_selected);
-            TextView tempFemaleText = (TextView) findViewById(R.id.female_button_selected);
-
+        } else if (sexString.equals("Male")) {
             tempFemaleText.setText("");
             tempMaleText.setText("selected");
-
+        } else {
+            tempFemaleText.setText("");
+            tempMaleText.setText("");
         }
 
     }
@@ -118,7 +118,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private double oxygenUsed(double milesPerMinute) {
 
-        double oxygenUsedCalculation = 0;
+        double oxygenUsedCalculation;
 
         if (speed > 3.7) {
             oxygenUsedCalculation = (milesPerMinute * 0.2);
@@ -135,14 +135,14 @@ public class SettingsActivity extends AppCompatActivity {
 
     private int stepsPerMile() {
 
-        int stepsPerMileCalculation = 0;
+        int stepsPerMileCalculation;
 
         if (speed >= 5) {
             stepsPerMileCalculation = 1084;
             stepsPerMileCalculation += ((143.6 * (60 / speed)) - (13.5 * height));
             return stepsPerMileCalculation;
         }
-        if (sexString == "Male") {
+        if (sexString.equals("Male")) {
             stepsPerMileCalculation = 1916;
         } else
             stepsPerMileCalculation = 1949;
@@ -151,26 +151,6 @@ public class SettingsActivity extends AppCompatActivity {
         return stepsPerMileCalculation;
     }
 
-    /**
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(intent);
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return true;
-    }
-     **/
     public void selectSexMale(View v) {
         TextView tempMaleText = (TextView) findViewById(R.id.male_button_selected);
         TextView tempFemaleText = (TextView) findViewById(R.id.female_button_selected);
@@ -197,13 +177,18 @@ public class SettingsActivity extends AppCompatActivity {
         EditText heightTextView = (EditText) findViewById(R.id.height_input);
         height = Integer.parseInt(heightTextView.getText().toString());
 
+        if (height == 0 || weight == 0) {
+            Toast.makeText(getApplicationContext(), "Please input your Height and Weight so calculations can be made", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         SharedPreferences sharedPreferences = SettingsActivity.this.getSharedPreferences(getString(R.string.PREF_FILE), MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         editor.putString(getString(R.string.GENDER), sexString);
         editor.putInt(getString(R.string.HEIGHT), height);
         editor.putInt(getString(R.string.WEIGHT), weight);
-        editor.commit();
+        editor.apply();
 
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
@@ -225,7 +210,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         tempFemaleText.setText("");
         tempMaleText.setText("");
-        sexString = "Male";
+        sexString = "";
 
         SharedPreferences sharedPreferences = SettingsActivity.this.getSharedPreferences(getString(R.string.PREF_FILE), MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -233,7 +218,7 @@ public class SettingsActivity extends AppCompatActivity {
         editor.putString(getString(R.string.GENDER), sexString);
         editor.putInt(getString(R.string.HEIGHT), height);
         editor.putInt(getString(R.string.WEIGHT), weight);
-        editor.commit();
+        editor.apply();
 
     }
 }
