@@ -1,15 +1,11 @@
 package com.example.android.treadmilltestapplication;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.math.BigDecimal;
@@ -37,35 +33,32 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        SharedPreferences sharedPreferences = SettingsActivity.this.getSharedPreferences(getString(R.string.PREF_FILE), MODE_PRIVATE);
+        sexString = sharedPreferences.getString(getString(R.string.GENDER), "Male");
+        height = sharedPreferences.getInt(getString(R.string.HEIGHT), 60);
+        weight = sharedPreferences.getInt(getString(R.string.WEIGHT), 125);
 
-        //create a new Spinner object
-        Spinner spinner = (Spinner) findViewById(R.id.sex_selector_spinner);
-        // create an ArrayAdapter using the string array (sex_values in this case) and the default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.sex_values, android.R.layout.simple_spinner_dropdown_item);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
+        EditText weightTextView = (EditText) findViewById(R.id.weight_input);
+        weightTextView.setText(String.valueOf(weight));
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (parent.getItemAtPosition(position) != null) {
+        EditText heightTextView = (EditText) findViewById(R.id.height_input);
+        heightTextView.setText(String.valueOf(height));
 
-                    sex = position;
-                    if (sex == 1) {
-                        sexString = "Female";
-                    } else
-                        sexString = "Male";
+        if (sexString == "Female") {
+            TextView tempMaleText = (TextView) findViewById(R.id.male_button_selected);
+            TextView tempFemaleText = (TextView) findViewById(R.id.female_button_selected);
 
-                }
-            }
+            tempMaleText.setText("");
+            tempFemaleText.setText("selected");
+        } else {
+            TextView tempMaleText = (TextView) findViewById(R.id.male_button_selected);
+            TextView tempFemaleText = (TextView) findViewById(R.id.female_button_selected);
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+            tempFemaleText.setText("");
+            tempMaleText.setText("selected");
 
-            }
-        });
+        }
+
     }
 
     public void calculateResults(View v) {
@@ -158,6 +151,7 @@ public class SettingsActivity extends AppCompatActivity {
         return stepsPerMileCalculation;
     }
 
+    /**
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -175,5 +169,71 @@ public class SettingsActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
+    }
+     **/
+    public void selectSexMale(View v) {
+        TextView tempMaleText = (TextView) findViewById(R.id.male_button_selected);
+        TextView tempFemaleText = (TextView) findViewById(R.id.female_button_selected);
+
+        tempFemaleText.setText("");
+        tempMaleText.setText("selected");
+        sexString = "Male";
+    }
+
+    public void selectSexFemale(View v) {
+        TextView tempMaleText = (TextView) findViewById(R.id.male_button_selected);
+        TextView tempFemaleText = (TextView) findViewById(R.id.female_button_selected);
+
+        tempMaleText.setText("");
+        tempFemaleText.setText("selected");
+        sexString = "Female";
+    }
+
+    public void saveSettings(View v) {
+
+        EditText weightTextView = (EditText) findViewById(R.id.weight_input);
+        weight = Integer.parseInt(weightTextView.getText().toString());
+
+        EditText heightTextView = (EditText) findViewById(R.id.height_input);
+        height = Integer.parseInt(heightTextView.getText().toString());
+
+        SharedPreferences sharedPreferences = SettingsActivity.this.getSharedPreferences(getString(R.string.PREF_FILE), MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putString(getString(R.string.GENDER), sexString);
+        editor.putInt(getString(R.string.HEIGHT), height);
+        editor.putInt(getString(R.string.WEIGHT), weight);
+        editor.commit();
+
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+
+    }
+
+    public void clearSettings(View v) {
+
+        EditText weightTextView = (EditText) findViewById(R.id.weight_input);
+        weight = 0;
+        weightTextView.setText(String.valueOf(weight));
+
+        EditText heightTextView = (EditText) findViewById(R.id.height_input);
+        height = 0;
+        heightTextView.setText(String.valueOf(height));
+
+        TextView tempMaleText = (TextView) findViewById(R.id.male_button_selected);
+        TextView tempFemaleText = (TextView) findViewById(R.id.female_button_selected);
+
+        tempFemaleText.setText("");
+        tempMaleText.setText("");
+        sexString = "Male";
+
+        SharedPreferences sharedPreferences = SettingsActivity.this.getSharedPreferences(getString(R.string.PREF_FILE), MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putString(getString(R.string.GENDER), sexString);
+        editor.putInt(getString(R.string.HEIGHT), height);
+        editor.putInt(getString(R.string.WEIGHT), weight);
+        editor.commit();
+
     }
 }

@@ -12,65 +12,123 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:paddingBottom="24dp"
+            android:paddingTop="24dp">
 
-            <TextView
-                style="@style/HeaderTextStyle"
-                android:text="height" />
-
-            <EditText
-                android:id="@+id/height_input"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:hint="in inches"
-                android:inputType="number" />
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
+                <Button
+                    android:id="@+id/male_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:onClick="selectSexMale"
+                    android:text="male" />
+
+                <TextView
+                    android:id="@+id/male_button_selected"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text=""
+                    android:textColor="@android:color/darker_gray" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/female_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:onClick="selectSexFemale"
+                    android:text="female" />
+
+                <TextView
+                    android:id="@+id/female_button_selected"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text=""
+                    android:textColor="@android:color/darker_gray" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:paddingBottom="24dp"
+            android:paddingTop="24dp">
 
-            <TextView
-                style="@style/HeaderTextStyle"
-                android:text="Weight" />
-
-            <EditText
-                android:id="@+id/weight_input"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:hint="in pounds"
-                android:inputType="number" />
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
+                <TextView
+                    style="@style/HeaderTextStyle"
+                    android:text="height" />
+
+                <EditText
+                    android:id="@+id/height_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="in inches"
+                    android:inputType="number" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/HeaderTextStyle"
+                    android:text="Weight" />
+
+                <EditText
+                    android:id="@+id/weight_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="in pounds"
+                    android:inputType="number" />
+
+            </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <Spinner
-                android:id="@+id/sex_selector_spinner"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:spinnerMode="dropdown"></Spinner>
-
-        </LinearLayout>
     </LinearLayout>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:onClick="saveSettings"
         android:text="save" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:onClick="clearSettings"
+        android:text="clear" />
 
 
 </LinearLayout>

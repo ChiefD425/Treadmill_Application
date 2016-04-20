@@ -1,16 +1,16 @@
 package com.example.android.treadmilltestapplication;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -38,37 +38,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //create a new Spinner object
-        Spinner spinner = (Spinner) findViewById(R.id.sex_selector_spinner);
-        // create an ArrayAdapter using the string array (sex_values in this case) and the default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.sex_values, android.R.layout.simple_spinner_dropdown_item);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (parent.getItemAtPosition(position) != null) {
-
-                    sex = position;
-                    if (sex == 1) {
-                        sexString = "Female";
-                    } else
-                        sexString = "Male";
-
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+        SharedPreferences sharedPreferences = MainActivity.this.getSharedPreferences(getString(R.string.PREF_FILE), MODE_PRIVATE);
+        sexString = sharedPreferences.getString(getString(R.string.GENDER), "Male");
+        height = sharedPreferences.getInt(getString(R.string.HEIGHT), 60);
+        weight = sharedPreferences.getInt(getString(R.string.WEIGHT), 125);
     }
 
     public void calculateResults(View v) {
+
 
         double milesPerMinute = 0;
         double weightInKilograms = 0;
@@ -77,18 +54,16 @@ public class MainActivity extends AppCompatActivity {
         int steps = 0;
         double distance = 0;
 
-        //grab the height
-        EditText heightTextView = (EditText) findViewById(R.id.height_input);
-//todo fix error with blank input
-        height = Integer.parseInt(heightTextView.getText().toString());
-
-        //grab the weight
-        EditText weightTextView = (EditText) findViewById(R.id.weight_input);
-        weight = Integer.parseInt(weightTextView.getText().toString());
-
         //grab the time
         EditText timeTextView = (EditText) findViewById(R.id.time_on_treadmill);
         time = Float.parseFloat(timeTextView.getText().toString());
+
+        Log.v("Time", String.valueOf(time));
+
+        if (time <= 0.000001) {
+            Toast.makeText(getApplicationContext(), "Error: Run Duration Missing", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         //grab the speed
         EditText speedTextView = (EditText) findViewById(R.id.speed);

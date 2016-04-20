@@ -13,66 +13,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.android.treadmilltestapplication.MainActivity">
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/HeaderTextStyle"
-                android:text="height" />
-
-            <EditText
-                android:id="@+id/height_input"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:hint="in inches"
-                android:inputType="number" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/HeaderTextStyle"
-                android:text="Weight" />
-
-            <EditText
-                android:id="@+id/weight_input"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:hint="in pounds"
-                android:inputType="number" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <Spinner
-                android:id="@+id/sex_selector_spinner"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:spinnerMode="dropdown"></Spinner>
-
-        </LinearLayout>
-    </LinearLayout>
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
