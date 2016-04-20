@@ -5,4 +5,13 @@
     <string name="GENDER">APP_GENDER</string>
     <string name="HEIGHT">APP_HEIGHT</string>
     <string name="WEIGHT">APP_WEIGhT</string>
+    <string name="time">Time</string>
+    <string name="minutes">minutes</string>
+    <string name="speed">Speed</string>
+    <string name="in_mph">in mph</string>
+    <string name="incline">Incline</string>
+    <string name="_1">1</string>
+    <string name="calculate">Calculate</string>
+    <string name="_0">0</string>
+    <string name="settings">Settings</string>
 </resources>

@@ -1,9 +1,9 @@
 package com.example.android.treadmilltestapplication;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,11 +11,15 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class MainActivity extends AppCompatActivity {
+//public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
+
+    Toolbar toolbar;
 
     int sex = 0; //if sex = 0 then male, if sex = 1 then female
     String sexString = "";
@@ -43,9 +47,10 @@ public class MainActivity extends AppCompatActivity {
         height = sharedPreferences.getInt(getString(R.string.HEIGHT), 60);
         weight = sharedPreferences.getInt(getString(R.string.WEIGHT), 125);
 
-        if (sexString == "Not Defined") {
+        if (sexString.equals("Not Defined") || height == 0 || weight == 0) {
             Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
             startActivity(intent);
+            Toast.makeText(MainActivity.this, "Welcome to the Treadmill Calculator, please input your Gender, Weight, and Height", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -82,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Error: Treadmill Speed Missing", Toast.LENGTH_SHORT).show();
             return;
         }
-        
+
         speed = Float.parseFloat(speedTextView.getText().toString());
 
         //grab the incline

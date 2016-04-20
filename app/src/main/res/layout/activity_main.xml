@@ -15,7 +15,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:baselineAligned="false">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,13 +26,14 @@
 
             <TextView
                 style="@style/HeaderTextStyle"
-                android:text="Time" />
+                android:text="@string/time" />
 
             <EditText
                 android:id="@+id/time_on_treadmill"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="minutes"
+                android:gravity="center"
+                android:hint="@string/minutes"
                 android:inputType="numberDecimal" />
         </LinearLayout>
 
@@ -43,13 +45,14 @@
 
             <TextView
                 style="@style/HeaderTextStyle"
-                android:text="Speed" />
+                android:text="@string/speed" />
 
             <EditText
                 android:id="@+id/speed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="in mph"
+                android:gravity="center"
+                android:hint="@string/in_mph"
                 android:inputType="numberDecimal" />
         </LinearLayout>
 
@@ -61,14 +64,15 @@
 
             <TextView
                 style="@style/HeaderTextStyle"
-                android:text="Incline" />
+                android:text="@string/incline" />
 
             <EditText
                 android:id="@+id/incline_percentage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:inputType="number"
-                android:text="1" />
+                android:text="@string/_1" />
         </LinearLayout>
     </LinearLayout>
 
@@ -76,7 +80,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="calculateResults"
-        android:text="Calculate" />
+        android:text="@string/calculate" />
 
     <TextView
         android:id="@+id/results"
@@ -84,6 +88,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:padding="16sp"
-        android:text="0"
-        android:textSize="18dp" />
+        android:text="@string/_0"
+        android:textSize="18sp" />
 </LinearLayout>
