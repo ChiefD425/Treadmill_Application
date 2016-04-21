@@ -16,7 +16,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -29,9 +28,6 @@ import java.util.ArrayList;
 //public class MainActivity extends AppCompatActivity {
 public class MainActivity extends Activity {
 
-    Toolbar toolbar;
-
-    int sex = 0; //if sex = 0 then male, if sex = 1 then female
     String sexString = "";
     int height = 0;
     int weight = 0;
@@ -109,7 +105,7 @@ public class MainActivity extends Activity {
         //inclineView.setText("9");
 
         container.addView(newView);
-        ArrayList<Float> newArray = new ArrayList<Float>();
+        ArrayList<Float> newArray = new ArrayList<>();
         newArray.add(treadmillTime);
         newArray.add(treadmillSpeed);
         newArray.add(treadmillIncline);
@@ -120,9 +116,9 @@ public class MainActivity extends Activity {
     public void calculateResults(View v) {
 
 
-        double milesPerMinute = 0;
-        double weightInKilograms = 0;
-        double caloriesPerMinute = 0;
+        double milesPerMinute;
+        double weightInKilograms;
+        double caloriesPerMinute;
 
         //grab the time
         EditText timeTextView = (EditText) findViewById(R.id.time_on_treadmill);
@@ -181,7 +177,7 @@ public class MainActivity extends Activity {
 
     private double oxygenUsed(double milesPerMinute) {
 
-        double oxygenUsedCalculation = 0;
+        double oxygenUsedCalculation;
 
         if (speed > 3.7) {
             oxygenUsedCalculation = (milesPerMinute * 0.2);
@@ -198,14 +194,14 @@ public class MainActivity extends Activity {
 
     private int stepsPerMile() {
 
-        int stepsPerMileCalculation = 0;
+        int stepsPerMileCalculation;
 
         if (speed >= 5) {
             stepsPerMileCalculation = 1084;
             stepsPerMileCalculation += ((143.6 * (60 / speed)) - (13.5 * height));
             return stepsPerMileCalculation;
         }
-        if (sexString == "Male") {
+        if (sexString.equals("Male")) {
             stepsPerMileCalculation = 1916;
         } else
             stepsPerMileCalculation = 1949;
@@ -272,4 +268,5 @@ public class MainActivity extends Activity {
         AppIndex.AppIndexApi.end(client, viewAction);
         client.disconnect();
     }
+
 }
