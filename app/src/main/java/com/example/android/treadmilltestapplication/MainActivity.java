@@ -1,20 +1,30 @@
 package com.example.android.treadmilltestapplication;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 
 //public class MainActivity extends AppCompatActivity {
 public class MainActivity extends Activity {
@@ -28,6 +38,15 @@ public class MainActivity extends Activity {
     float time = 0;
     float incline = 0;
     float speed = 0;
+    //ArrayList<CharSequence> itemList;
+    ArrayList<ArrayList<Float>> itemList;
+    Button buttonAdd;
+    LinearLayout container;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     public static double round(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();
@@ -46,12 +65,51 @@ public class MainActivity extends Activity {
         sexString = sharedPreferences.getString(getString(R.string.GENDER), "Not Defined");
         height = sharedPreferences.getInt(getString(R.string.HEIGHT), 60);
         weight = sharedPreferences.getInt(getString(R.string.WEIGHT), 125);
+        buttonAdd = (Button) findViewById(R.id.add_segment_button);
 
         if (sexString.equals("Not Defined") || height == 0 || weight == 0) {
             Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
             startActivity(intent);
             Toast.makeText(MainActivity.this, "Welcome to the Treadmill Calculator, please input your Gender, Weight, and Height", Toast.LENGTH_LONG).show();
         }
+
+        itemList = new ArrayList<>();
+
+        buttonAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addNewView(time, speed, incline);
+            }
+        });
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+    }
+
+    private void addNewView(final float treadmillTime, final float treadmillSpeed, final float treadmillIncline) {
+
+        LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View newView = layoutInflater.inflate(R.layout.row, null);
+
+        TextView timeView = (TextView) newView.findViewById(R.id.length_of_run);
+        //timeView.setText(String.valueOf(treadmillTime));
+        timeView.setText("7");
+
+        TextView speedView = (TextView) newView.findViewById(R.id.speed_of_run);
+        //speedView.setText(String.valueOf(treadmillSpeed));
+        speedView.setText("8");
+
+        TextView inclineView = (TextView) newView.findViewById(R.id.incline_of_run);
+        //inclineView.setText(String.valueOf(treadmillIncline));
+        inclineView.setText("9");
+
+        container.addView(newView);
+        ArrayList<Float> newArray = new ArrayList<Float>();
+        newArray.add(treadmillTime);
+        newArray.add(treadmillSpeed);
+        newArray.add(treadmillIncline);
+
+        itemList.add(newArray);
     }
 
     public void calculateResults(View v) {
@@ -171,5 +229,45 @@ public class MainActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Main Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app URL is correct.
+                Uri.parse("android-app://com.example.android.treadmilltestapplication/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(client, viewAction);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Main Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app URL is correct.
+                Uri.parse("android-app://com.example.android.treadmilltestapplication/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(client, viewAction);
+        client.disconnect();
     }
 }

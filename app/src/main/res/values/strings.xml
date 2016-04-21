@@ -4,7 +4,7 @@
     <string name="PREF_FILE">APP_PREF_FILE</string>
     <string name="GENDER">APP_GENDER</string>
     <string name="HEIGHT">APP_HEIGHT</string>
-    <string name="WEIGHT">APP_WEIGhT</string>
+    <string name="WEIGHT">APP_WEIGHT</string>
     <string name="time">Time</string>
     <string name="minutes">minutes</string>
     <string name="speed">Speed</string>
