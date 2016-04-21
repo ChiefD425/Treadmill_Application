@@ -42,6 +42,10 @@ public class MainActivity extends Activity {
     ArrayList<ArrayList<Float>> itemList;
     Button buttonAdd;
     LinearLayout container;
+    double totalCalorieBurn = 0;
+    int steps = 0;
+    double distance = 0;
+
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -74,10 +78,11 @@ public class MainActivity extends Activity {
         }
 
         itemList = new ArrayList<>();
-
+        container = (LinearLayout) findViewById(R.id.container);
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                calculateResults(v);
                 addNewView(time, speed, incline);
             }
         });
@@ -92,16 +97,16 @@ public class MainActivity extends Activity {
         View newView = layoutInflater.inflate(R.layout.row, null);
 
         TextView timeView = (TextView) newView.findViewById(R.id.length_of_run);
-        //timeView.setText(String.valueOf(treadmillTime));
-        timeView.setText("7");
+        timeView.setText(String.valueOf(treadmillTime));
+        //timeView.setText("7");
 
         TextView speedView = (TextView) newView.findViewById(R.id.speed_of_run);
-        //speedView.setText(String.valueOf(treadmillSpeed));
-        speedView.setText("8");
+        speedView.setText(String.valueOf(treadmillSpeed));
+        //speedView.setText("8");
 
         TextView inclineView = (TextView) newView.findViewById(R.id.incline_of_run);
-        //inclineView.setText(String.valueOf(treadmillIncline));
-        inclineView.setText("9");
+        inclineView.setText(String.valueOf(100 * treadmillIncline));
+        //inclineView.setText("9");
 
         container.addView(newView);
         ArrayList<Float> newArray = new ArrayList<Float>();
@@ -118,9 +123,6 @@ public class MainActivity extends Activity {
         double milesPerMinute = 0;
         double weightInKilograms = 0;
         double caloriesPerMinute = 0;
-        double totalCalorieBurn = 0;
-        int steps = 0;
-        double distance = 0;
 
         //grab the time
         EditText timeTextView = (EditText) findViewById(R.id.time_on_treadmill);
@@ -156,9 +158,9 @@ public class MainActivity extends Activity {
         milesPerMinute = speed * 26.8;
         weightInKilograms = weight / 2.2;
         caloriesPerMinute = (oxygenUsed(milesPerMinute) * weightInKilograms) / 200;
-        totalCalorieBurn = caloriesPerMinute * time;
-        steps = (int) ((speed / 60) * stepsPerMile() * time);
-        distance = time * (speed / 60);
+        totalCalorieBurn += caloriesPerMinute * time;
+        steps += (int) ((speed / 60) * stepsPerMile() * time);
+        distance += time * (speed / 60);
 
         displayResults(totalCalorieBurn, steps, distance);
 
