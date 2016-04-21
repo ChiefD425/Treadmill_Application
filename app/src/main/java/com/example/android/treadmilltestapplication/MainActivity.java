@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -94,15 +93,12 @@ public class MainActivity extends Activity {
 
         TextView timeView = (TextView) newView.findViewById(R.id.length_of_run);
         timeView.setText(String.valueOf(treadmillTime));
-        //timeView.setText("7");
 
         TextView speedView = (TextView) newView.findViewById(R.id.speed_of_run);
         speedView.setText(String.valueOf(treadmillSpeed));
-        //speedView.setText("8");
 
         TextView inclineView = (TextView) newView.findViewById(R.id.incline_of_run);
         inclineView.setText(String.valueOf(100 * treadmillIncline));
-        //inclineView.setText("9");
 
         container.addView(newView);
         ArrayList<Float> newArray = new ArrayList<>();
@@ -131,8 +127,6 @@ public class MainActivity extends Activity {
         }
 
         time = Float.parseFloat(timeTextView.getText().toString());
-
-        Log.v("Time", String.valueOf(time));
 
         //grab the speed
         EditText speedTextView = (EditText) findViewById(R.id.speed);
