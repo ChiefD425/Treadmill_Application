@@ -40,6 +40,7 @@ public class MainActivity extends Activity {
     double totalCalorieBurn = 0;
     int steps = 0;
     double distance = 0;
+    float numberOfSegments = 0;
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -89,7 +90,7 @@ public class MainActivity extends Activity {
     private void addNewView(final float treadmillTime, final float treadmillSpeed, final float treadmillIncline) {
 
         LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View newView = layoutInflater.inflate(R.layout.row, null);
+        final View newView = layoutInflater.inflate(R.layout.row, null);
 
         TextView timeView = (TextView) newView.findViewById(R.id.length_of_run);
         timeView.setText(String.valueOf(treadmillTime));
@@ -100,19 +101,39 @@ public class MainActivity extends Activity {
         TextView inclineView = (TextView) newView.findViewById(R.id.incline_of_run);
         inclineView.setText(String.valueOf(100 * treadmillIncline));
 
-        container.addView(newView);
-        ArrayList<Float> newArray = new ArrayList<>();
+        TextView numberOfSegmentsView = (TextView) newView.findViewById(R.id.segment_id);
+        numberOfSegmentsView.setText(String.valueOf(numberOfSegments));
+
+        final ArrayList<Float> newArray = new ArrayList<>();
+        numberOfSegments++;
+        newArray.add(numberOfSegments);
         newArray.add(treadmillTime);
         newArray.add(treadmillSpeed);
         newArray.add(treadmillIncline);
 
+        Button buttonRemove = (Button) newView
+                .findViewById(R.id.delete_button);
+
+        buttonRemove.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                ((LinearLayout) newView.getParent())
+                        .removeView(newView);
+
+
+            }
+        });
+
+
+        container.addView(newView);
         itemList.add(newArray);
     }
 
     public void calculateResults(View v) {
 
 
-        double milesPerMinute;
+        double metersPerMinute;
         double weightInKilograms;
         double caloriesPerMinute;
 
@@ -145,9 +166,9 @@ public class MainActivity extends Activity {
         incline = Float.parseFloat(inclineTextView.getText().toString());
         incline = incline / 100;
 
-        milesPerMinute = speed * 26.8;
+        metersPerMinute = speed * 26.8;
         weightInKilograms = weight / 2.2;
-        caloriesPerMinute = (oxygenUsed(milesPerMinute) * weightInKilograms) / 200;
+        caloriesPerMinute = (oxygenUsed(metersPerMinute) * weightInKilograms) / 200;
         totalCalorieBurn += caloriesPerMinute * time;
         steps += (int) ((speed / 60) * stepsPerMile() * time);
         distance += time * (speed / 60);

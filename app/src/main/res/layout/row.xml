@@ -2,28 +2,36 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="16dp"
     android:background="@drawable/rounded_background"
-    android:orientation="horizontal"
-    android:padding="16dp">
+    android:orientation="horizontal">
 
-    <RelativeLayout
+    <TextView
+        android:id="@+id/segment_id"
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="4dp">
 
         <TextView
             android:id="@+id/length_of_run"
             android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:background="@color/colorAccent" />
+            android:layout_height="16dp"
+            android:background="@color/colorAccent"
+            android:gravity="bottom|center_horizontal" />
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_below="@id/length_of_run"
+            android:layout_height="16dp"
+            android:background="@color/colorPrimaryDark"
+            android:gravity="top|center_horizontal"
             android:text=" minutes" />
-    </RelativeLayout>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/speed_of_run"
@@ -54,6 +62,7 @@
         android:text="% incline" />
 
     <Button
+        android:id="@+id/delete_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/delete" />
