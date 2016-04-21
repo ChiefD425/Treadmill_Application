@@ -2,42 +2,60 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:background="@drawable/rounded_background"
+    android:orientation="horizontal"
+    android:padding="16dp">
 
-    <TextView
-        android:id="@+id/length_of_run"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_weight="1"
-        android:text="@string/minutes" />
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/length_of_run"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:background="@color/colorAccent" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_below="@id/length_of_run"
+            android:text=" minutes" />
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/speed_of_run"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:gravity="right" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="mph" />
+        android:gravity="left"
+        android:text=" mph" />
 
     <TextView
         android:id="@+id/incline_of_run"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:gravity="right" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:gravity="left"
         android:text="% incline" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/delete" />
 
 </LinearLayout>
