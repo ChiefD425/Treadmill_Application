@@ -78,7 +78,7 @@ public class MainActivity extends Activity {
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                calculateResults(v);
+                // calculateResults(v);
                 addNewView(time, speed, incline);
             }
         });
@@ -111,6 +111,11 @@ public class MainActivity extends Activity {
         newArray.add(treadmillSpeed);
         newArray.add(treadmillIncline);
 
+        totalCalorieBurn += calculateCalorieBurn();
+        totalSteps += calculateSteps();
+        totalDistance += calculateDistance();
+
+
         Button buttonRemove = (Button) newView
                 .findViewById(R.id.delete_button);
 
@@ -120,7 +125,8 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
 
                 //  getTimeInput(newView);
-                //  getSpeedInput(newView);
+
+                getSpeedInput(v);
 
                 totalCalorieBurn -= calculateCalorieBurn();
                 totalSteps -= calculateSteps();
@@ -129,7 +135,7 @@ public class MainActivity extends Activity {
                 ((LinearLayout) newView.getParent())
                         .removeView(newView);
 
-                displayResults();
+                //  displayResults();
 
 
             }
