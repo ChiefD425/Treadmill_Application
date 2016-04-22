@@ -133,9 +133,9 @@ public class MainActivity extends Activity {
     public void calculateResults(View v) {
 
 
-        double metersPerMinute;
-        double weightInKilograms;
-        double caloriesPerMinute;
+        // double metersPerMinute;
+        //  double weightInKilograms;
+        //  double caloriesPerMinute;
 
         //grab the time
         EditText timeTextView = (EditText) findViewById(R.id.time_on_treadmill);
@@ -166,16 +166,33 @@ public class MainActivity extends Activity {
         incline = Float.parseFloat(inclineTextView.getText().toString());
         incline = incline / 100;
 
-        metersPerMinute = speed * 26.8;
-        weightInKilograms = weight / 2.2;
-        caloriesPerMinute = (oxygenUsed(metersPerMinute) * weightInKilograms) / 200;
-        totalCalorieBurn += caloriesPerMinute * time;
+        //  metersPerMinute = speed * 26.8;
+        //  weightInKilograms = weight / 2.2;
+        //  caloriesPerMinute = (oxygenUsed(metersPerMinute) * weightInKilograms) / 200;
+
+        totalCalorieBurn += calculateCalorieBurn();
         steps += (int) ((speed / 60) * stepsPerMile() * time);
         distance += time * (speed / 60);
 
         displayResults(totalCalorieBurn, steps, distance);
 
 
+    }
+
+    public double calculateCalorieBurn() {
+
+        double caloriesPerMinute;
+        double metersPerMinute;
+        double weightInKilograms;
+        double caloriesBurnedThisSegment;
+
+        metersPerMinute = speed * 26.8;
+        weightInKilograms = weight / 2.2;
+
+        caloriesPerMinute = (oxygenUsed(metersPerMinute) * weightInKilograms) / 200;
+        caloriesBurnedThisSegment = caloriesPerMinute * time;
+
+        return caloriesBurnedThisSegment;
     }
 
     private void displayResults(double totalCalorieBurn, int steps, double distance) {
