@@ -38,8 +38,8 @@ public class MainActivity extends Activity {
     Button buttonAdd;
     LinearLayout container;
     double totalCalorieBurn = 0;
-    int steps = 0;
-    double distance = 0;
+    int totalSteps = 0;
+    double totalDistance = 0;
     float numberOfSegments = 0;
 
     /**
@@ -118,8 +118,18 @@ public class MainActivity extends Activity {
 
             @Override
             public void onClick(View v) {
+
+                //  getTimeInput(newView);
+                //  getSpeedInput(newView);
+
+                totalCalorieBurn -= calculateCalorieBurn();
+                totalSteps -= calculateSteps();
+                totalDistance -= calculateDistance();
+
                 ((LinearLayout) newView.getParent())
                         .removeView(newView);
+
+                displayResults();
 
 
             }
@@ -128,16 +138,11 @@ public class MainActivity extends Activity {
 
         container.addView(newView);
         itemList.add(newArray);
+
+        displayResults();
     }
 
-    public void calculateResults(View v) {
-
-
-        // double metersPerMinute;
-        //  double weightInKilograms;
-        //  double caloriesPerMinute;
-
-        //grab the time
+    private void getTimeInput(View v) {
         EditText timeTextView = (EditText) findViewById(R.id.time_on_treadmill);
 
         try {
@@ -149,7 +154,10 @@ public class MainActivity extends Activity {
 
         time = Float.parseFloat(timeTextView.getText().toString());
 
-        //grab the speed
+    }
+
+    private void getSpeedInput(View v) {
+
         EditText speedTextView = (EditText) findViewById(R.id.speed);
 
         try {
@@ -161,21 +169,44 @@ public class MainActivity extends Activity {
 
         speed = Float.parseFloat(speedTextView.getText().toString());
 
-        //grab the incline
+    }
+
+    private void getInclineInput(View v) {
+
         EditText inclineTextView = (EditText) findViewById(R.id.incline_percentage);
         incline = Float.parseFloat(inclineTextView.getText().toString());
         incline = incline / 100;
 
-        //  metersPerMinute = speed * 26.8;
-        //  weightInKilograms = weight / 2.2;
-        //  caloriesPerMinute = (oxygenUsed(metersPerMinute) * weightInKilograms) / 200;
+    }
+
+    public void calculateResults(View v) {
+
+        //grab the time
+        getTimeInput(v);
+
+        //grab the speed
+        getSpeedInput(v);
+
+        //grab the incline
+        getInclineInput(v);
 
         totalCalorieBurn += calculateCalorieBurn();
-        steps += (int) ((speed / 60) * stepsPerMile() * time);
-        distance += time * (speed / 60);
+        totalSteps += calculateSteps();
+        totalDistance += calculateDistance();
 
-        displayResults(totalCalorieBurn, steps, distance);
+        displayResults();
 
+    }
+
+    private double calculateDistance() {
+
+        return time * (speed / 60);
+
+    }
+
+    private double calculateSteps() {
+
+        return (int) ((speed / 60) * stepsPerMile() * time);
 
     }
 
@@ -193,16 +224,18 @@ public class MainActivity extends Activity {
         caloriesBurnedThisSegment = caloriesPerMinute * time;
 
         return caloriesBurnedThisSegment;
+
     }
 
-    private void displayResults(double totalCalorieBurn, int steps, double distance) {
+    private void displayResults() {
+
         TextView resultsTextView = (TextView) findViewById(R.id.results);
 
         String workoutSummary = "";
         workoutSummary += "Congratulations!";
         workoutSummary += "\nYou burned " + (int) round(totalCalorieBurn, 0) + " Calories";
-        workoutSummary += "\nYou took " + (int) round(steps, 0) + " Steps";
-        workoutSummary += "\nYou traveled " + round(distance, 2) + " Miles";
+        workoutSummary += "\nYou took " + (int) round(totalSteps, 0) + " Steps";
+        workoutSummary += "\nYou traveled " + round(totalDistance, 2) + " Miles";
 
         resultsTextView.setText(workoutSummary);
     }
