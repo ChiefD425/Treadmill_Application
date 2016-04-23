@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,11 +30,11 @@ public class MainActivity extends Activity {
     String sexString = "";
     int height = 0;
     int weight = 0;
-    float time = 0;
-    float incline = 0;
-    float speed = 0;
+    double time = 0;
+    double incline = 0;
+    double speed = 0;
     //ArrayList<CharSequence> itemList;
-    ArrayList<ArrayList<Float>> itemList;
+    ArrayList<ArrayList<Double>> itemList;
     Button buttonAdd;
     LinearLayout container;
     double totalCalorieBurn = 0;
@@ -90,7 +89,7 @@ public class MainActivity extends Activity {
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
-    private void addNewView(final float treadmillTime, final float treadmillSpeed, final float treadmillIncline) {
+    private void addNewView(final double treadmillTime, final Double treadmillSpeed, final Double treadmillIncline) {
 
         LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View newView = layoutInflater.inflate(R.layout.row, null);
@@ -107,11 +106,11 @@ public class MainActivity extends Activity {
         TextView numberOfSegmentsView = (TextView) newView.findViewById(R.id.segment_id);
         numberOfSegmentsView.setText(String.valueOf(numberOfSegments));
 
-        Log.v("number", String.valueOf(numberOfSegments));
+        //    Log.v("number", String.valueOf(numberOfSegments));
 
-        final ArrayList<Float> newArray = new ArrayList<>();
+        final ArrayList<Double> newArray = new ArrayList<>();
         numberOfSegments++;
-        newArray.add(numberOfSegments);
+        //   newArray.add(numberOfSegments);
         newArray.add(treadmillTime);
         newArray.add(treadmillSpeed);
         newArray.add(treadmillIncline);
@@ -133,9 +132,10 @@ public class MainActivity extends Activity {
                 TextView temporarySpeedView = (TextView) newView.findViewById(R.id.speed_of_run);
                 TextView temporaryInclineView = (TextView) newView.findViewById(R.id.incline_of_run);
 
-                time = Float.parseFloat(temporaryTimeView.getText().toString());
-                speed = Float.parseFloat(temporarySpeedView.getText().toString());
-                incline = Float.parseFloat(temporaryInclineView.getText().toString());
+                time = Double.parseDouble(temporaryTimeView.getText().toString());
+                speed = Double.parseDouble(temporarySpeedView.getText().toString());
+                incline = Double.parseDouble(temporaryInclineView.getText().toString()) / 100;
+
 
                 totalCalorieBurn -= calculateCalorieBurn();
                 totalSteps -= calculateSteps();
@@ -161,13 +161,13 @@ public class MainActivity extends Activity {
         EditText timeTextView = (EditText) findViewById(R.id.time_on_treadmill);
 
         try {
-            time = Float.parseFloat(timeTextView.getText().toString());
+            time = Double.parseDouble(timeTextView.getText().toString());
         } catch (NumberFormatException ex) {
             Toast.makeText(getApplicationContext(), "Error: Run Duration Missing", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        time = Float.parseFloat(timeTextView.getText().toString());
+        time = Double.parseDouble(timeTextView.getText().toString());
 
     }
 
@@ -176,20 +176,20 @@ public class MainActivity extends Activity {
         EditText speedTextView = (EditText) findViewById(R.id.speed);
 
         try {
-            speed = Float.parseFloat(speedTextView.getText().toString());
+            speed = Double.parseDouble(speedTextView.getText().toString());
         } catch (NumberFormatException ex) {
             Toast.makeText(getApplicationContext(), "Error: Treadmill Speed Missing", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        speed = Float.parseFloat(speedTextView.getText().toString());
+        speed = Double.parseDouble(speedTextView.getText().toString());
 
     }
 
     private void getInclineInput(View v) {
 
         EditText inclineTextView = (EditText) findViewById(R.id.incline_percentage);
-        incline = Float.parseFloat(inclineTextView.getText().toString());
+        incline = Double.parseDouble(inclineTextView.getText().toString());
         incline = incline / 100;
 
     }
@@ -255,20 +255,20 @@ public class MainActivity extends Activity {
         resultsTextView.setText(workoutSummary);
     }
 
-    private double oxygenUsed(double milesPerMinute) {
+    private double oxygenUsed(double metersPerMinute) {
 
         double oxygenUsedCalculation;
 
         if (speed > 3.7) {
-            oxygenUsedCalculation = (milesPerMinute * 0.2);
-            oxygenUsedCalculation += (milesPerMinute * incline * 0.9);
+            oxygenUsedCalculation = (metersPerMinute * 0.2);
+            oxygenUsedCalculation += (metersPerMinute * incline * 0.9);
             oxygenUsedCalculation += 3.5;
         } else {
-            oxygenUsedCalculation = (milesPerMinute * 0.1);
-            oxygenUsedCalculation += (milesPerMinute * incline * 1.8);
+            oxygenUsedCalculation = (metersPerMinute * 0.1);
+            oxygenUsedCalculation += (metersPerMinute * incline * 1.8);
             oxygenUsedCalculation += 3.5;
         }
-
+        
         return oxygenUsedCalculation;
     }
 
