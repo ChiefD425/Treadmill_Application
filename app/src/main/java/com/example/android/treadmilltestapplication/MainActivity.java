@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -78,7 +79,9 @@ public class MainActivity extends Activity {
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // calculateResults(v);
+                getTimeInput(v);
+                getSpeedInput(v);
+                getInclineInput(v);
                 addNewView(time, speed, incline);
             }
         });
@@ -92,17 +95,19 @@ public class MainActivity extends Activity {
         LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View newView = layoutInflater.inflate(R.layout.row, null);
 
-        TextView timeView = (TextView) newView.findViewById(R.id.length_of_run);
+        final TextView timeView = (TextView) newView.findViewById(R.id.length_of_run);
         timeView.setText(String.valueOf(treadmillTime));
 
-        TextView speedView = (TextView) newView.findViewById(R.id.speed_of_run);
+        final TextView speedView = (TextView) newView.findViewById(R.id.speed_of_run);
         speedView.setText(String.valueOf(treadmillSpeed));
 
-        TextView inclineView = (TextView) newView.findViewById(R.id.incline_of_run);
+        final TextView inclineView = (TextView) newView.findViewById(R.id.incline_of_run);
         inclineView.setText(String.valueOf(100 * treadmillIncline));
 
         TextView numberOfSegmentsView = (TextView) newView.findViewById(R.id.segment_id);
         numberOfSegmentsView.setText(String.valueOf(numberOfSegments));
+
+        Log.v("number", String.valueOf(numberOfSegments));
 
         final ArrayList<Float> newArray = new ArrayList<>();
         numberOfSegments++;
@@ -124,9 +129,13 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                //  getTimeInput(newView);
+                TextView temporaryTimeView = (TextView) newView.findViewById(R.id.length_of_run);
+                TextView temporarySpeedView = (TextView) newView.findViewById(R.id.speed_of_run);
+                TextView temporaryInclineView = (TextView) newView.findViewById(R.id.incline_of_run);
 
-                getSpeedInput(v);
+                time = Float.parseFloat(temporaryTimeView.getText().toString());
+                speed = Float.parseFloat(temporarySpeedView.getText().toString());
+                incline = Float.parseFloat(temporaryInclineView.getText().toString());
 
                 totalCalorieBurn -= calculateCalorieBurn();
                 totalSteps -= calculateSteps();
@@ -135,7 +144,7 @@ public class MainActivity extends Activity {
                 ((LinearLayout) newView.getParent())
                         .removeView(newView);
 
-                //  displayResults();
+                displayResults();
 
 
             }
