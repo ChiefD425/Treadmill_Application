@@ -86,8 +86,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="calculateResults"
-        android:text="@string/calculate" />
+        android:text="Save to Google Fit" />
 
     <LinearLayout
         android:id="@+id/container"
