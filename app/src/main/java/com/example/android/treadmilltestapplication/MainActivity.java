@@ -56,6 +56,11 @@ public class MainActivity extends Activity {
         return bd.doubleValue();
     }
 
+    public void setDate(View v) {
+        PickerDialogs pickerDialogs = new PickerDialogs();
+        pickerDialogs.show(getFragmentManager(), "date picker");
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
