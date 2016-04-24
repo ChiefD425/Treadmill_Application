@@ -15,6 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:background="@drawable/rounded_background"
         android:orientation="vertical"
         android:padding="4dp">
 
@@ -22,44 +23,56 @@
             android:id="@+id/length_of_run"
             android:layout_width="match_parent"
             android:layout_height="16dp"
-            android:background="@color/colorAccent"
             android:gravity="bottom|center_horizontal" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="16dp"
-            android:background="@color/colorPrimaryDark"
             android:gravity="top|center_horizontal"
             android:text=" minutes" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/speed_of_run"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:gravity="right" />
+        android:background="@drawable/rounded_background"
+        android:orientation="vertical"
+        android:padding="4dp">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="left"
-        android:text=" mph" />
+        <TextView
+            android:id="@+id/speed_of_run"
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:gravity="bottom|center_horizontal" />
 
-    <TextView
-        android:id="@+id/incline_of_run"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="right" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:gravity="top|center_horizontal"
+            android:text=" mph" />
+    </LinearLayout>
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:gravity="left"
-        android:text="% incline" />
+        android:background="@drawable/rounded_background"
+        android:orientation="vertical"
+        android:padding="4dp">
+
+        <TextView
+            android:id="@+id/incline_of_run"
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:gravity="bottom|center_horizontal" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:gravity="top|center_horizontal"
+            android:text="% incline" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/delete_button"
