@@ -16,6 +16,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <Button
@@ -30,6 +31,7 @@
             android:onClick="setTime"
             android:text="Set Time" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -104,7 +106,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="calculateResults"
-        android:text="@string/calculate" />
+        android:text="Send to Google Fit" />
 
     <LinearLayout
         android:id="@+id/container"

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,12 +20,15 @@ import android.widget.Toast;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.fitness.Fitness;
+import com.google.android.gms.fitness.FitnessActivities;
+import com.google.android.gms.fitness.data.Session;
+import com.google.android.gms.fitness.request.SessionInsertRequest;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
-//public class MainActivity extends AppCompatActivity {
 public class MainActivity extends Activity {
 
     String sexString = "";
@@ -33,14 +37,14 @@ public class MainActivity extends Activity {
     double time = 0;
     double incline = 0;
     double speed = 0;
-    //ArrayList<CharSequence> itemList;
-    ArrayList<ArrayList<Double>> itemList;
     Button buttonAdd;
     LinearLayout container;
     double totalCalorieBurn = 0;
     int totalSteps = 0;
     double totalDistance = 0;
     float numberOfSegments = 0;
+    boolean workoutSubmitted = false;
+    private GoogleApiClient mClient = null;
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -78,7 +82,6 @@ public class MainActivity extends Activity {
             Toast.makeText(MainActivity.this, "Welcome to the Treadmill Calculator, please input your Gender, Weight, and Height", Toast.LENGTH_LONG).show();
         }
 
-        itemList = new ArrayList<>();
         container = (LinearLayout) findViewById(R.id.container);
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,6 +95,7 @@ public class MainActivity extends Activity {
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+
     }
 
     private void addNewView(final double treadmillTime, final Double treadmillSpeed, final Double treadmillIncline) {
@@ -110,15 +114,6 @@ public class MainActivity extends Activity {
 
         TextView numberOfSegmentsView = (TextView) newView.findViewById(R.id.segment_id);
         numberOfSegmentsView.setText(String.valueOf(numberOfSegments));
-
-        //    Log.v("number", String.valueOf(numberOfSegments));
-
-        final ArrayList<Double> newArray = new ArrayList<>();
-        numberOfSegments++;
-        //   newArray.add(numberOfSegments);
-        newArray.add(treadmillTime);
-        newArray.add(treadmillSpeed);
-        newArray.add(treadmillIncline);
 
         totalCalorieBurn += calculateCalorieBurn();
         totalSteps += calculateSteps();
@@ -155,9 +150,7 @@ public class MainActivity extends Activity {
             }
         });
 
-
         container.addView(newView);
-        itemList.add(newArray);
 
         displayResults();
     }
@@ -201,6 +194,11 @@ public class MainActivity extends Activity {
 
     public void calculateResults(View v) {
 
+        long currentTime = SystemClock.currentThreadTimeMillis();
+        long lengthOfWorkout = (new Double(time)).longValue();
+        long startTime = currentTime - lengthOfWorkout;
+        long endTime = startTime + lengthOfWorkout;
+
         //grab the time
         getTimeInput(v);
 
@@ -215,6 +213,42 @@ public class MainActivity extends Activity {
         totalDistance += calculateDistance();
 
         displayResults();
+
+        if (workoutSubmitted = true) {
+            return;
+        }
+
+        Session session = new Session.Builder()
+                .setName("test data")
+                .setDescription("test description")
+                .setIdentifier("UniqueIdentifierHere")
+                .setActivity(FitnessActivities.RUNNING)
+                .setStartTime(startTime, TimeUnit.MILLISECONDS)
+                .setEndTime(endTime, TimeUnit.MILLISECONDS)
+                .build();
+
+        SessionInsertRequest insertRequest = new SessionInsertRequest.Builder()
+                .setSession(session)
+                .build();
+
+        // Then, invoke the Sessions API to insert the session and await the result,
+// which is possible here because of the AsyncTask. Always include a timeout when
+// calling await() to avoid hanging that can occur from the service being shutdown
+// because of low memory or other conditions.
+        com.google.android.gms.common.api.Status insertStatus =
+                Fitness.SessionsApi.insertSession(mClient, insertRequest)
+                        .await(1, TimeUnit.MINUTES);
+
+// Before querying the session, check to see if the insertion succeeded.
+        if (!insertStatus.isSuccess()) {
+
+            return;
+        }
+
+// At this point, the session has been inserted and can be read.
+        //  Log.i(TAG, "Session insert was successful!");
+
+        workoutSubmitted = true;
 
     }
 
@@ -273,7 +307,7 @@ public class MainActivity extends Activity {
             oxygenUsedCalculation += (metersPerMinute * incline * 1.8);
             oxygenUsedCalculation += 3.5;
         }
-        
+
         return oxygenUsedCalculation;
     }
 
@@ -353,5 +387,6 @@ public class MainActivity extends Activity {
         AppIndex.AppIndexApi.end(client, viewAction);
         client.disconnect();
     }
+
 
 }
