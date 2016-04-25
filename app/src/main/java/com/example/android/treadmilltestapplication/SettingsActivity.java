@@ -15,8 +15,12 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+//import butterknife.ButterKnife;
+
 //public class SettingsActivity extends AppCompatActivity {
 public class SettingsActivity extends Activity {
+
+   // @BindView(R.id.male_button) Button maleButton1;
     //  int sex = 0; //if sex = 0 then male, if sex = 1 then female
     String sexString = "";
     int height = 0;
@@ -35,6 +39,8 @@ public class SettingsActivity extends Activity {
         sexString = sharedPreferences.getString(getString(R.string.GENDER), "");
         height = sharedPreferences.getInt(getString(R.string.HEIGHT), 60);
         weight = sharedPreferences.getInt(getString(R.string.WEIGHT), 125);
+
+      //  ButterKnife.bind(this);
 
         EditText weightTextView = (EditText) findViewById(R.id.weight_input);
         weightTextView.setText(String.valueOf(weight));
