@@ -22,7 +22,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
 
 //public class MainActivity extends AppCompatActivity {
 public class MainActivity extends Activity {
@@ -33,8 +32,6 @@ public class MainActivity extends Activity {
     double time = 0;
     double incline = 0;
     double speed = 0;
-    //ArrayList<CharSequence> itemList;
-    ArrayList<ArrayList<Double>> itemList;
     Button buttonAdd;
     LinearLayout container;
     double totalCalorieBurn = 0;
@@ -73,7 +70,6 @@ public class MainActivity extends Activity {
             Toast.makeText(MainActivity.this, "Welcome to the Treadmill Calculator, please input your Gender, Weight, and Height", Toast.LENGTH_LONG).show();
         }
 
-        itemList = new ArrayList<>();
         container = (LinearLayout) findViewById(R.id.container);
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,7 +77,11 @@ public class MainActivity extends Activity {
                 getTimeInput(v);
                 getSpeedInput(v);
                 getInclineInput(v);
-                addNewView(time, speed, incline);
+                if (time == 0 || speed == 0) {
+                    Toast.makeText(MainActivity.this, "Error: missing speed and/or time", Toast.LENGTH_SHORT).show();
+                    return;
+                } else
+                    addNewView();
             }
         });
         // ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -89,31 +89,22 @@ public class MainActivity extends Activity {
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
-    private void addNewView(final double treadmillTime, final Double treadmillSpeed, final Double treadmillIncline) {
+    private void addNewView() {
 
         LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View newView = layoutInflater.inflate(R.layout.row, null);
 
         final TextView timeView = (TextView) newView.findViewById(R.id.length_of_run);
-        timeView.setText(String.valueOf(treadmillTime));
+        timeView.setText(String.valueOf(time));
 
         final TextView speedView = (TextView) newView.findViewById(R.id.speed_of_run);
-        speedView.setText(String.valueOf(treadmillSpeed));
+        speedView.setText(String.valueOf(speed));
 
         final TextView inclineView = (TextView) newView.findViewById(R.id.incline_of_run);
-        inclineView.setText(String.valueOf(100 * treadmillIncline));
+        inclineView.setText(String.valueOf(100 * incline));
 
         TextView numberOfSegmentsView = (TextView) newView.findViewById(R.id.segment_id);
         numberOfSegmentsView.setText(String.valueOf(numberOfSegments));
-
-        //    Log.v("number", String.valueOf(numberOfSegments));
-
-        final ArrayList<Double> newArray = new ArrayList<>();
-        numberOfSegments++;
-        //   newArray.add(numberOfSegments);
-        newArray.add(treadmillTime);
-        newArray.add(treadmillSpeed);
-        newArray.add(treadmillIncline);
 
         totalCalorieBurn += calculateCalorieBurn();
         totalSteps += calculateSteps();
@@ -150,9 +141,7 @@ public class MainActivity extends Activity {
             }
         });
 
-
         container.addView(newView);
-        itemList.add(newArray);
 
         displayResults();
     }
@@ -268,7 +257,7 @@ public class MainActivity extends Activity {
             oxygenUsedCalculation += (metersPerMinute * incline * 1.8);
             oxygenUsedCalculation += 3.5;
         }
-        
+
         return oxygenUsedCalculation;
     }
 
