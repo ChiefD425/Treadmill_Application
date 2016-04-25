@@ -50,16 +50,18 @@ public class SettingsActivity extends Activity {
 
         switch (sexString) {
             case "Female":
-                tempMaleText.setText("");
-                tempFemaleText.setText("selected");
+                femaleButton.setBackgroundResource(R.drawable.filled_in_background);
+                maleButton.setBackgroundResource(R.drawable.rounded_background);
+                sexString = "Female";
                 break;
             case "Male":
-                tempFemaleText.setText("");
-                tempMaleText.setText("selected");
+                femaleButton.setBackgroundResource(R.drawable.rounded_background);
+                maleButton.setBackgroundResource(R.drawable.filled_in_background);
+                sexString = "Male";
                 break;
             default:
-                tempFemaleText.setText("");
-                tempMaleText.setText("");
+                femaleButton.setBackgroundResource(R.drawable.rounded_background);
+                maleButton.setBackgroundResource(R.drawable.rounded_background);
                 break;
         }
 
@@ -69,20 +71,20 @@ public class SettingsActivity extends Activity {
     }
 
     public void selectSexMale(View v) {
-        TextView tempMaleText = (TextView) findViewById(R.id.male_button_selected);
-        TextView tempFemaleText = (TextView) findViewById(R.id.female_button_selected);
+        Button maleButton = (Button) findViewById(R.id.male_button);
+        Button femaleButton = (Button) findViewById(R.id.female_button);
 
-        tempFemaleText.setText("");
-        tempMaleText.setText("selected");
+        femaleButton.setBackgroundResource(R.drawable.rounded_background);
+        maleButton.setBackgroundResource(R.drawable.filled_in_background);
         sexString = "Male";
     }
 
     public void selectSexFemale(View v) {
-        TextView tempMaleText = (TextView) findViewById(R.id.male_button_selected);
-        TextView tempFemaleText = (TextView) findViewById(R.id.female_button_selected);
+        Button maleButton = (Button) findViewById(R.id.male_button);
+        Button femaleButton = (Button) findViewById(R.id.female_button);
 
-        tempMaleText.setText("");
-        tempFemaleText.setText("selected");
+        maleButton.setBackgroundResource(R.drawable.rounded_background);
+        femaleButton.setBackgroundResource(R.drawable.filled_in_background);
         sexString = "Female";
     }
 
@@ -122,11 +124,11 @@ public class SettingsActivity extends Activity {
         height = 0;
         heightTextView.setText(String.valueOf(height));
 
-        TextView tempMaleText = (TextView) findViewById(R.id.male_button_selected);
-        TextView tempFemaleText = (TextView) findViewById(R.id.female_button_selected);
+        Button maleButton = (Button) findViewById(R.id.male_button);
+        Button femaleButton = (Button) findViewById(R.id.female_button);
 
-        tempFemaleText.setText("");
-        tempMaleText.setText("");
+        femaleButton.setBackgroundResource(R.drawable.rounded_background);
+        maleButton.setBackgroundResource(R.drawable.rounded_background);
         sexString = "";
 
         SharedPreferences sharedPreferences = SettingsActivity.this.getSharedPreferences(getString(R.string.PREF_FILE), MODE_PRIVATE);
