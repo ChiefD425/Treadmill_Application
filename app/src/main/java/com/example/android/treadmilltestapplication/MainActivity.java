@@ -127,7 +127,11 @@ public class MainActivity extends Activity {
                     yesRemoveEntry = 1;
                     return;
                 }
-
+/**
+                if (buttonRemove.getText() == String.valueOf(R.string.delete)){
+                    return;
+                }
+**/
                 TextView temporaryTimeView = (TextView) newView.findViewById(R.id.length_of_run);
                 TextView temporarySpeedView = (TextView) newView.findViewById(R.id.speed_of_run);
                 TextView temporaryInclineView = (TextView) newView.findViewById(R.id.incline_of_run);
