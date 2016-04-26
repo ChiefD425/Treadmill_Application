@@ -38,6 +38,7 @@ public class MainActivity extends Activity {
     int totalSteps = 0;
     double totalDistance = 0;
     float numberOfSegments = 0;
+    int yesRemoveEntry = 0;
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -111,13 +112,21 @@ public class MainActivity extends Activity {
         totalDistance += calculateDistance();
 
 
-        Button buttonRemove = (Button) newView
+        final Button buttonRemove = (Button) newView
                 .findViewById(R.id.delete_button);
 
         buttonRemove.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+
+                if (yesRemoveEntry == 0) {
+
+                    buttonRemove.setText("I'm sure I want to delete");
+                    buttonRemove.setBackgroundColor(R.color.colorAccent);
+                    yesRemoveEntry = 1;
+                    return;
+                }
 
                 TextView temporaryTimeView = (TextView) newView.findViewById(R.id.length_of_run);
                 TextView temporarySpeedView = (TextView) newView.findViewById(R.id.speed_of_run);
@@ -135,6 +144,7 @@ public class MainActivity extends Activity {
                 ((LinearLayout) newView.getParent())
                         .removeView(newView);
 
+                yesRemoveEntry = 0;
                 displayResults();
 
 
