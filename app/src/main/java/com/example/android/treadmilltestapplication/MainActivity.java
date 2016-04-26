@@ -122,8 +122,8 @@ public class MainActivity extends Activity {
 
                 if (yesRemoveEntry == 0) {
 
-                    buttonRemove.setText("I'm sure I want to delete");
-                    buttonRemove.setBackgroundColor(R.color.colorAccent);
+                    buttonRemove.setText(R.string.delete_confirmation);
+                    buttonRemove.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                     yesRemoveEntry = 1;
                     return;
                 }
