@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Treadmill Test Application</string>
+    <string name="app_name">Treadmill Steps</string>
     <string name="title_activity_settings">Settings</string>
     <string name="PREF_FILE">APP_PREF_FILE</string>
     <string name="GENDER">APP_GENDER</string>
